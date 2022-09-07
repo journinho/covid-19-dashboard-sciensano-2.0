@@ -10,6 +10,9 @@ vaccin = pd.read_csv('https://epistat.sciensano.be/Data/COVID19BE_VACC.csv')
 hospital = pd.read_csv('https://epistat.sciensano.be/Data/COVID19BE_HOSP.csv')
 mortality = pd.read_csv('https://epistat.sciensano.be/Data/COVID19BE_MORT.csv')
 
+# # 1. Zevendaags gemiddeld aantal besmettingen
+
+
 # # 1. Zevendaags gemiddelde aantal bevestigde besmettingen (sinds 1 maart 2020)
 
 cases_pivot = pd.pivot_table(cases, index = 'DATE', values = ['CASES'], aggfunc='sum')
@@ -19,6 +22,8 @@ zevendaags.reset_index(level=0, inplace=True)
 zevendaags.drop(zevendaags.tail(3).index,inplace=True)
 zevendaags = zevendaags.rename(columns = {'DATE': 'Datum', 'CASES': 'Bevestigde besmettingen'}, inplace = False)
 zevendaags.to_csv('1_besmettingen_zevendaags.csv', index=False)
+
+zevendaags
 
 # # 2. Positiviteitsratio
 
@@ -100,7 +105,7 @@ vaccinatiedekking_total['Eerste dosis'] = (vaccinatiedekking_total['A'] + vaccin
 vaccinatiedekking_total['Volledig gevaccineerd'] = (vaccinatiedekking_total['B'] + vaccinatiedekking_total['C'] - vaxdeadallB - vaxdeadallC) / population_total * 100
 vaccinatiedekking_total['Boosterprik'] = (vaccinatiedekking_total['E'] - vaxdeadallE)  / population_total * 100
 vaccinatiedekking_total['2de boosterprik'] = vaccinatiedekking_total['E2']  / population_total * 100
-vaccinatiedekking_pivot['18+ met 3de boosterprik'] = vaccinatiedekking_total['E3'] /population_adult * 100
+vaccinatiedekking_total['3de boosterprik'] = vaccinatiedekking_total['E3'] /population_total * 100
 vaccinatiedekking_total['Ongevaccineerd'] = (population_total - vaccinatiedekking_total['A'] - vaccinatiedekking_total['C'] + vaxdeadallA + vaxdeadallC) / population_total * 100
 vaccinatiedekking_total.drop(['A', 'B', 'C', 'E', 'E2', 'E3'], axis=1, inplace=True)
 vaccinatiedekking_total = vaccinatiedekking_total.transpose().reset_index()
