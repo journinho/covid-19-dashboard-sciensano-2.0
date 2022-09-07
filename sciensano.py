@@ -10,20 +10,15 @@ vaccin = pd.read_csv('https://epistat.sciensano.be/Data/COVID19BE_VACC.csv')
 hospital = pd.read_csv('https://epistat.sciensano.be/Data/COVID19BE_HOSP.csv')
 mortality = pd.read_csv('https://epistat.sciensano.be/Data/COVID19BE_MORT.csv')
 
-# # 1. Zevendaags gemiddeld aantal besmettingen
-
-
 # # 1. Zevendaags gemiddelde aantal bevestigde besmettingen (sinds 1 maart 2020)
 
 cases_pivot = pd.pivot_table(cases, index = 'DATE', values = ['CASES'], aggfunc='sum')
-cases_pivot['Zevendaags gemiddelde'] = cases_pivot['CASES'].rolling(window=7).mean().round(decimals=0)
+cases_pivot['Zevendaags lopende gemiddelde'] = cases_pivot['CASES'].rolling(window=7).mean().round(decimals=0)
 zevendaags = cases_pivot.drop(cases_pivot.index[range(6)])
 zevendaags.reset_index(level=0, inplace=True)
 zevendaags.drop(zevendaags.tail(3).index,inplace=True)
-zevendaags = zevendaags.rename(columns = {'DATE': 'Datum', 'CASES': 'Bevestigd aantal besmettingen'}, inplace = False)
+zevendaags = zevendaags.rename(columns = {'DATE': 'Datum', 'CASES': 'Bevestigde besmettingen'}, inplace = False)
 zevendaags.to_csv('1_besmettingen_zevendaags.csv', index=False)
-
-zevendaags
 
 # # 2. Positiviteitsratio
 
