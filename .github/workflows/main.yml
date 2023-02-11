@@ -3,7 +3,7 @@ name: Get latest Sciensano data
 on: 
   schedule:
     # Runs every 6 hours
-    - cron: '*/30 * * * *'
+    - cron: '0 6 * * *'
   workflow_dispatch:
 jobs:
   build-and-deploy:
